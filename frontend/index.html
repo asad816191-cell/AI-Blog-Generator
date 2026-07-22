@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>NeoWriter AI</title>
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+</head>
+
+<body>
+
+<div class="background-grid"></div>
+<div class="background-blur blur1"></div>
+<div class="background-blur blur2"></div>
+
+<div class="app">
+
+<!-- ================= NAVBAR ================= -->
+
+<header class="navbar">
+
+<div class="logo">
+
+<i class="fa-solid fa-wand-magic-sparkles"></i>
+
+<span>NeoWriter AI</span>
+
+</div>
+
+<nav>
+
+<button class="nav-btn">
+
+<i class="fa-solid fa-clock-rotate-left"></i>
+
+History
+
+</button>
+
+<button class="nav-btn">
+
+<i class="fa-solid fa-bookmark"></i>
+
+Saved
+
+</button>
+
+<button class="theme-btn">
+
+<i class="fa-solid fa-moon"></i>
+
+</button>
+
+<div class="user-box">
+
+<img src="https://i.pravatar.cc/100" alt="user">
+
+<div>
+
+<h4>Asad</h4>
+
+<p>Premium</p>
+
+</div>
+
+</div>
+
+</nav>
+
+</header>
+
+<!-- ================= MAIN ================= -->
+
+<div class="main-layout">
+
+<!-- Sidebar -->
+
+<aside class="sidebar">
+
+<button class="new-btn">
+
+<i class="fa-solid fa-plus"></i>
+
+New Blog
+
+</button>
+
+<h3>
+
+Recent Blogs
+
+</h3>
+
+<div class="history">
+
+<div class="history-item active">
+
+Artificial Intelligence
+
+</div>
+
+<div class="history-item">
+
+Python Programming
+
+</div>
+
+<div class="history-item">
+
+Web Development
+
+</div>
+
+<div class="history-item">
+
+Machine Learning
+
+</div>
+
+<div class="history-item">
+
+SEO Blogging
+
+</div>
+
+</div>
+
+<div class="sidebar-footer">
+
+<div>
+
+<i class="fa-solid fa-gear"></i>
+
+Settings
+
+</div>
+
+<div>
+
+<i class="fa-solid fa-circle-info"></i>
+
+Help
+
+</div>
+
+</div>
+
+</aside>
+
+<!-- Content -->
+
+<main class="content">
+
+<section class="hero">
+
+<span class="badge">
+
+Powered by Gemini AI
+
+</span>
+
+<h1>
+
+Write Amazing Blogs
+
+with Artificial Intelligence
+
+</h1>
+
+<p>
+
+Generate SEO optimized blogs in seconds with futuristic AI writing technology.
+
+</p>
+
+<div class="input-wrapper">
+
+<input
+
+type="text"
+
+id="title"
+
+placeholder="Enter your blog topic...">
+
+<button id="generateBtn">
+
+<i class="fa-solid fa-wand-magic-sparkles"></i>
+
+Generate
+
+</button>
+
+</div>
+
+<div class="suggestions">
+
+<button>AI in Education</button>
+
+<button>Future of Robotics</button>
+
+<button>Web Development</button>
+
+<button>Machine Learning</button>
+
+<button>Cyber Security</button>
+
+</div>
+
+</section>
+
+<!-- Loading -->
+
+<section
+
+class="loading-section"
+
+id="loading"
+
+style="display:none;">
+
+<div class="ai-orb">
+
+<div class="ring ring1"></div>
+
+<div class="ring ring2"></div>
+
+<div class="ring ring3"></div>
+
+<div class="core"></div>
+
+</div>
+
+<h2>
+
+AI is Thinking...
+
+</h2>
+
+<p>
+
+Generating your professional blog...
+
+</p>
+
+</section>
+
+<!-- Result -->
+
+<section
+
+class="result-card"
+
+id="resultSection"
+
+style="display:none;">
+
+<div class="result-header">
+
+<div>
+
+<h2 id="blogTitle">
+
+Generated Blog
+
+</h2>
+
+<div class="meta">
+
+<span id="wordCount">
+
+0 Words
+
+</span>
+
+<span>
+
+•
+
+</span>
+
+<span id="readingTime">
+
+0 min read
+
+</span>
+
+</div>
+
+</div>
+
+<div class="action-buttons">
+
+<button id="copyBtn">
+
+<i class="fa-regular fa-copy"></i>
+
+Copy
+
+</button>
+
+<button id="pdfBtn">
+
+<i class="fa-solid fa-file-pdf"></i>
+
+PDF
+
+</button>
+
+<button id="wordBtn">
+
+<i class="fa-solid fa-file-word"></i>
+
+Word
+
+</button>
+
+<button id="regenBtn">
+
+<i class="fa-solid fa-rotate"></i>
+
+Regenerate
+
+</button>
+
+</div>
+
+</div>
+
+<div
+
+id="blogOutput"
+
+class="blog-content">
+
+</div>
+
+</section>
+
+</main>
+
+</div>
+
+</div>
+
+<!-- Toast -->
+<!-- ================= RIGHT PANEL ================= -->
+
+<aside class="right-panel">
+
+    <div class="glass-card">
+
+        <h3>
+            <i class="fa-solid fa-chart-line"></i>
+            Blog Statistics
+        </h3>
+
+        <div class="stats">
+
+            <div class="stat-box">
+                <span id="totalWords">0</span>
+                <small>Words</small>
+            </div>
+
+            <div class="stat-box">
+                <span id="readTime">0</span>
+                <small>Minutes</small>
+            </div>
+
+            <div class="stat-box">
+                <span id="headings">0</span>
+                <small>Headings</small>
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="glass-card">
+
+        <h3>
+            AI Status
+        </h3>
+
+        <div class="status-item">
+
+            <span class="dot online"></span>
+
+            Gemini Connected
+
+        </div>
+
+        <div class="status-item">
+
+            <span class="dot"></span>
+
+            FastAPI Running
+
+        </div>
+
+        <div class="status-item">
+
+            <span class="dot"></span>
+
+            Ready
+
+        </div>
+
+    </div>
+
+</aside>
+
+</div>
+
+<!-- ================= FOOTER ================= -->
+
+<footer class="footer">
+
+    <p>
+
+        NeoWriter AI © 2026
+
+    </p>
+
+    <p>
+
+        Powered by Google Gemini + FastAPI
+
+    </p>
+
+</footer>
+
+<!-- ================= SETTINGS MODAL ================= -->
+
+<div class="modal" id="settingsModal">
+
+    <div class="modal-content">
+
+        <div class="modal-header">
+
+            <h2>Settings</h2>
+
+            <button class="close-modal">&times;</button>
+
+        </div>
+
+        <div class="modal-body">
+
+            <div class="setting-item">
+
+                <label>Dark Mode</label>
+
+                <input type="checkbox" checked>
+
+            </div>
+
+            <div class="setting-item">
+
+                <label>Typing Animation</label>
+
+                <input type="checkbox" checked>
+
+            </div>
+
+            <div class="setting-item">
+
+                <label>Auto Scroll</label>
+
+                <input type="checkbox" checked>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- ================= SHARE MODAL ================= -->
+
+<div class="modal" id="shareModal">
+
+    <div class="modal-content">
+
+        <div class="modal-header">
+
+            <h2>Share Blog</h2>
+
+            <button class="close-modal">&times;</button>
+
+        </div>
+
+        <div class="share-buttons">
+
+            <button>
+
+                <i class="fa-brands fa-facebook"></i>
+
+                Facebook
+
+            </button>
+
+            <button>
+
+                <i class="fa-brands fa-linkedin"></i>
+
+                LinkedIn
+
+            </button>
+
+            <button>
+
+                <i class="fa-brands fa-x-twitter"></i>
+
+                X
+
+            </button>
+
+            <button>
+
+                <i class="fa-solid fa-link"></i>
+
+                Copy Link
+
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- ================= SHORTCUTS ================= -->
+
+<div class="shortcuts">
+
+    <small>
+
+        Ctrl + Enter → Generate Blog
+
+    </small>
+
+</div>
+
+<!-- ================= FLOATING BUTTON ================= -->
+
+<button class="scroll-top">
+
+    <i class="fa-solid fa-arrow-up"></i>
+
+</button>
+
+<!-- ================= CURSOR GLOW ================= -->
+
+<div class="cursor-glow"></div>
+
+<script src="{{ url_for('static', filename='app.js') }}"></script>
+
+<div class="toast" id="toast">Copied Successfully</div>
+
+</body>
+</html>

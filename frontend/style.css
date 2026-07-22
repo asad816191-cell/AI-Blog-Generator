@@ -1,0 +1,1690 @@
+/* =========================================
+   NeoWriter AI - Premium CSS
+   Part 1 : Global + Layout
+========================================= */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+
+:root{
+
+    --bg:#050816;
+    --surface:#0c1326;
+    --surface2:#111a32;
+
+    --primary:#4F7CFF;
+    --secondary:#00D4FF;
+
+    --text:#ffffff;
+    --text-light:#b8c0d4;
+
+    --border:rgba(255,255,255,.08);
+
+    --shadow:0 20px 60px rgba(0,0,0,.35);
+
+    --radius:22px;
+
+}
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+html{
+
+    scroll-behavior:smooth;
+
+}
+
+body{
+
+    font-family:'Inter',sans-serif;
+
+    background:var(--bg);
+
+    color:var(--text);
+
+    overflow-x:hidden;
+
+    min-height:100vh;
+
+}
+
+body.light-mode{
+    --bg:#f4f7ff;
+    --surface:#ffffff;
+    --surface2:#eef3ff;
+    --primary:#2563eb;
+    --secondary:#00a8d4;
+    --text:#0f172a;
+    --text-light:#475569;
+    --border:rgba(15,23,42,.08);
+    --shadow:0 20px 60px rgba(15,23,42,.12);
+}
+
+body.light-mode .navbar,
+body.light-mode .sidebar,
+body.light-mode .right-panel .glass-card,
+body.light-mode .result-card,
+body.light-mode .input-wrapper,
+body.light-mode .nav-btn,
+body.light-mode .theme-btn,
+body.light-mode .action-buttons button,
+body.light-mode .suggestions button,
+body.light-mode .stat-box{
+    background:rgba(255,255,255,.9);
+    color:var(--text);
+}
+
+body.light-mode .background-grid{
+    background-image:
+        linear-gradient(rgba(15,23,42,.04) 1px,transparent 1px),
+        linear-gradient(90deg,rgba(15,23,42,.04) 1px,transparent 1px);
+}
+
+/* Scrollbar */
+
+::-webkit-scrollbar{
+
+    width:10px;
+
+}
+
+::-webkit-scrollbar-track{
+
+    background:#070b18;
+
+}
+
+::-webkit-scrollbar-thumb{
+
+    background:linear-gradient(
+        var(--primary),
+        var(--secondary)
+    );
+
+    border-radius:20px;
+
+}
+
+/* Aurora Background */
+
+.background-grid{
+
+    position:fixed;
+
+    inset:0;
+
+    background-image:
+
+    linear-gradient(rgba(255,255,255,.03) 1px,transparent 1px),
+
+    linear-gradient(90deg,rgba(255,255,255,.03) 1px,transparent 1px);
+
+    background-size:60px 60px;
+
+    z-index:-4;
+
+}
+
+.background-blur{
+
+    position:fixed;
+
+    width:500px;
+
+    height:500px;
+
+    border-radius:50%;
+
+    filter:blur(160px);
+
+    opacity:.35;
+
+    z-index:-3;
+
+}
+
+.blur1{
+
+    top:-180px;
+
+    left:-120px;
+
+    background:#2563eb;
+
+}
+
+.blur2{
+
+    bottom:-180px;
+
+    right:-120px;
+
+    background:#00d4ff;
+
+}
+
+/* Main App */
+
+.app{
+
+    width:100%;
+
+    min-height:100vh;
+
+}
+
+.main-layout{
+
+    display:grid;
+
+    grid-template-columns:260px 1fr 300px;
+
+    gap:30px;
+
+    padding:25px;
+
+}
+
+/* Glass Effect */
+
+.glass-card{
+
+    background:rgba(255,255,255,.05);
+
+    border:1px solid rgba(255,255,255,.08);
+
+    backdrop-filter:blur(25px);
+
+    border-radius:22px;
+
+    box-shadow:var(--shadow);
+
+}
+/* =========================================
+   NeoWriter AI - Premium CSS
+   Part 2 : Navbar + Sidebar
+========================================= */
+
+/* ---------- NAVBAR ---------- */
+
+.navbar{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    padding:18px 35px;
+
+    border-bottom:1px solid rgba(255,255,255,.08);
+
+    backdrop-filter:blur(20px);
+
+    position:sticky;
+
+    top:0;
+
+    z-index:999;
+
+    background:rgba(5,8,22,.65);
+
+}
+
+.logo{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:12px;
+
+    font-size:28px;
+
+    font-weight:800;
+
+    color:white;
+
+}
+
+.logo i{
+
+    color:var(--secondary);
+
+    font-size:30px;
+
+    animation:glow 3s infinite;
+
+}
+
+@keyframes glow{
+
+0%{
+
+transform:rotate(0deg) scale(1);
+
+}
+
+50%{
+
+transform:rotate(15deg) scale(1.1);
+
+}
+
+100%{
+
+transform:rotate(0deg) scale(1);
+
+}
+
+}
+
+.logo span{
+
+    background:linear-gradient(90deg,#ffffff,#00d4ff);
+
+    -webkit-background-clip:text;
+
+    -webkit-text-fill-color:transparent;
+
+}
+
+.navbar nav{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:15px;
+
+}
+
+/* ---------- Buttons ---------- */
+
+.nav-btn,
+
+.theme-btn{
+
+    background:rgba(255,255,255,.05);
+
+    color:white;
+
+    border:1px solid rgba(255,255,255,.08);
+
+    padding:12px 18px;
+
+    border-radius:14px;
+
+    cursor:pointer;
+
+    transition:.35s;
+
+}
+
+.nav-btn:hover,
+
+.theme-btn:hover{
+
+    background:linear-gradient(135deg,#2563eb,#00d4ff);
+
+    transform:translateY(-3px);
+
+    box-shadow:0 10px 25px rgba(0,212,255,.35);
+
+}
+
+/* ---------- USER ---------- */
+
+.user-box{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:12px;
+
+    background:rgba(255,255,255,.05);
+
+    padding:8px 14px;
+
+    border-radius:18px;
+
+}
+
+.user-box img{
+
+    width:45px;
+
+    height:45px;
+
+    border-radius:50%;
+
+    border:2px solid var(--secondary);
+
+}
+
+.user-box h4{
+
+    font-size:15px;
+
+}
+
+.user-box p{
+
+    font-size:12px;
+
+    color:var(--text-light);
+
+}
+
+/* ---------- SIDEBAR ---------- */
+
+.sidebar{
+
+    background:rgba(255,255,255,.04);
+
+    border:1px solid rgba(255,255,255,.08);
+
+    border-radius:22px;
+
+    padding:25px;
+
+    display:flex;
+
+    flex-direction:column;
+
+    height:calc(100vh - 120px);
+
+    position:sticky;
+
+    top:95px;
+
+}
+
+.new-btn{
+
+    width:100%;
+
+    border:none;
+
+    cursor:pointer;
+
+    padding:16px;
+
+    font-size:16px;
+
+    border-radius:15px;
+
+    color:white;
+
+    background:linear-gradient(135deg,#2563eb,#00d4ff);
+
+    transition:.35s;
+
+}
+
+.new-btn:hover{
+
+    transform:translateY(-3px);
+
+    box-shadow:0 15px 35px rgba(0,212,255,.35);
+
+}
+
+.sidebar h3{
+
+    margin-top:35px;
+
+    margin-bottom:20px;
+
+    font-size:18px;
+
+}
+
+.history{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:12px;
+
+}
+
+.history-item{
+
+    padding:15px;
+
+    border-radius:14px;
+
+    cursor:pointer;
+
+    transition:.3s;
+
+    color:#d4d8e5;
+
+}
+
+.history-item:hover{
+
+    background:rgba(255,255,255,.07);
+
+}
+
+.history-item.active{
+
+    background:linear-gradient(135deg,#2563eb,#00d4ff);
+
+    color:white;
+
+}
+
+.sidebar-footer{
+
+    margin-top:auto;
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:15px;
+
+    color:#c8d0df;
+
+}
+
+.sidebar-footer div{
+
+    cursor:pointer;
+
+    transition:.3s;
+
+}
+
+.sidebar-footer div:hover{
+
+    color:#00d4ff;
+
+}
+
+/* ---------- RIGHT PANEL ---------- */
+
+.right-panel{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:20px;
+
+}
+
+.stats{
+
+    display:grid;
+
+    grid-template-columns:repeat(3,1fr);
+
+    gap:12px;
+
+    margin-top:20px;
+
+}
+
+.stat-box{
+
+    text-align:center;
+
+    padding:20px;
+
+    border-radius:15px;
+
+    background:rgba(255,255,255,.04);
+
+}
+
+.stat-box span{
+
+    display:block;
+
+    font-size:28px;
+
+    font-weight:700;
+
+    color:#00d4ff;
+
+}
+
+.stat-box small{
+
+    color:#b8c0d4;
+
+}
+
+.status-item{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:10px;
+
+    margin-top:18px;
+
+}
+
+.dot{
+
+    width:10px;
+
+    height:10px;
+
+    border-radius:50%;
+
+    background:#666;
+
+}
+
+.online{
+
+    background:#00ff95;
+
+    box-shadow:0 0 15px #00ff95;
+
+}
+/* =========================================
+   NeoWriter AI - Premium CSS
+   Part 3 : Hero Section
+========================================= */
+
+.content{
+
+    padding:20px;
+
+}
+
+.hero{
+
+    margin-top:40px;
+
+    text-align:center;
+
+}
+
+.badge{
+
+    display:inline-flex;
+
+    align-items:center;
+
+    gap:10px;
+
+    padding:10px 18px;
+
+    border-radius:50px;
+
+    background:rgba(255,255,255,.05);
+
+    border:1px solid rgba(255,255,255,.08);
+
+    color:#00d4ff;
+
+    font-size:14px;
+
+    margin-bottom:30px;
+
+}
+
+.hero h1{
+
+    font-size:68px;
+
+    font-weight:900;
+
+    line-height:1.1;
+
+    max-width:900px;
+
+    margin:auto;
+
+    background:linear-gradient(
+        90deg,
+        #ffffff,
+        #6ea8ff,
+        #00d4ff
+    );
+
+    -webkit-background-clip:text;
+
+    -webkit-text-fill-color:transparent;
+
+}
+
+.hero p{
+
+    max-width:720px;
+
+    margin:30px auto;
+
+    color:var(--text-light);
+
+    font-size:20px;
+
+    line-height:34px;
+
+}
+
+/* Search */
+
+.input-wrapper{
+
+    width:100%;
+
+    max-width:900px;
+
+    margin:45px auto;
+
+    display:flex;
+
+    background:rgba(255,255,255,.05);
+
+    border:1px solid rgba(255,255,255,.08);
+
+    border-radius:22px;
+
+    overflow:hidden;
+
+    transition:.35s;
+
+}
+
+.input-wrapper:hover{
+
+    border-color:#00d4ff;
+
+    box-shadow:0 0 40px rgba(0,212,255,.18);
+
+}
+
+.input-wrapper input{
+
+    flex:1;
+
+    background:transparent;
+
+    border:none;
+
+    outline:none;
+
+    color:white;
+
+    font-size:18px;
+
+    padding:24px;
+
+}
+
+.input-wrapper input::placeholder{
+
+    color:#8d98ac;
+
+}
+
+#generateBtn{
+
+    border:none;
+
+    cursor:pointer;
+
+    color:white;
+
+    font-size:17px;
+
+    font-weight:700;
+
+    padding:0 35px;
+
+    background:linear-gradient(
+        135deg,
+        #2563eb,
+        #00d4ff
+    );
+
+    transition:.35s;
+
+}
+
+#generateBtn:hover{
+
+    transform:scale(1.03);
+
+}
+
+/* Suggestions */
+
+.suggestions{
+
+    display:flex;
+
+    justify-content:center;
+
+    flex-wrap:wrap;
+
+    gap:15px;
+
+    margin-top:30px;
+
+}
+
+.suggestions button{
+
+    border:none;
+
+    cursor:pointer;
+
+    padding:13px 20px;
+
+    color:white;
+
+    border-radius:40px;
+
+    background:rgba(255,255,255,.05);
+
+    border:1px solid rgba(255,255,255,.08);
+
+    transition:.35s;
+
+}
+
+.suggestions button:hover{
+
+    background:linear-gradient(
+        135deg,
+        #2563eb,
+        #00d4ff
+    );
+
+    transform:translateY(-3px);
+
+}
+/* =========================================
+   NeoWriter AI - Premium CSS
+   Part 4 : AI Loading + Result
+========================================= */
+
+/* ---------- AI Thinking ---------- */
+
+.loading-section{
+
+    margin-top:60px;
+
+    text-align:center;
+
+    padding:50px 20px;
+
+}
+
+.ai-orb{
+
+    position:relative;
+
+    width:180px;
+
+    height:180px;
+
+    margin:0 auto 40px;
+
+}
+
+.ring{
+
+    position:absolute;
+
+    inset:0;
+
+    border-radius:50%;
+
+    border:2px solid rgba(0,212,255,.35);
+
+    animation:rotate 8s linear infinite;
+
+}
+
+.ring2{
+
+    transform:scale(.8);
+
+    animation-duration:6s;
+
+}
+
+.ring3{
+
+    transform:scale(.6);
+
+    animation-duration:4s;
+
+}
+
+.core{
+
+    position:absolute;
+
+    top:50%;
+
+    left:50%;
+
+    width:70px;
+
+    height:70px;
+
+    transform:translate(-50%,-50%);
+
+    border-radius:50%;
+
+    background:linear-gradient(135deg,#2563eb,#00d4ff);
+
+    box-shadow:0 0 50px rgba(0,212,255,.8);
+
+    animation:pulse 2s infinite;
+
+}
+
+@keyframes rotate{
+
+    from{
+
+        transform:rotate(0deg);
+
+    }
+
+    to{
+
+        transform:rotate(360deg);
+
+    }
+
+}
+
+@keyframes pulse{
+
+    0%{
+
+        transform:translate(-50%,-50%) scale(1);
+
+    }
+
+    50%{
+
+        transform:translate(-50%,-50%) scale(1.15);
+
+    }
+
+    100%{
+
+        transform:translate(-50%,-50%) scale(1);
+
+    }
+
+}
+
+.loading-section h2{
+
+    font-size:34px;
+
+    margin-bottom:15px;
+
+}
+
+.loading-section p{
+
+    color:var(--text-light);
+
+    font-size:18px;
+
+}
+
+/* ---------- Result Card ---------- */
+
+.result-card{
+
+    margin-top:60px;
+
+    background:rgba(255,255,255,.05);
+
+    border:1px solid rgba(255,255,255,.08);
+
+    border-radius:25px;
+
+    backdrop-filter:blur(30px);
+
+    box-shadow:var(--shadow);
+
+    overflow:hidden;
+
+}
+
+.result-header{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    padding:25px 30px;
+
+    border-bottom:1px solid rgba(255,255,255,.08);
+
+}
+
+.result-header h2{
+
+    font-size:28px;
+
+}
+
+.meta{
+
+    margin-top:10px;
+
+    color:var(--text-light);
+
+    display:flex;
+
+    gap:10px;
+
+    font-size:14px;
+
+}
+
+.blog-content{
+
+    padding:35px;
+
+    line-height:2;
+
+    font-size:18px;
+
+    color:#d7dbe8;
+
+    white-space:pre-wrap;
+
+}
+
+/* ---------- Action Buttons ---------- */
+
+.action-buttons{
+
+    display:flex;
+
+    gap:12px;
+
+    flex-wrap:wrap;
+
+}
+
+.action-buttons button{
+
+    border:none;
+
+    cursor:pointer;
+
+    padding:12px 18px;
+
+    border-radius:14px;
+
+    color:white;
+
+    background:rgba(255,255,255,.05);
+
+    border:1px solid rgba(255,255,255,.08);
+
+    transition:.35s;
+
+}
+
+.action-buttons button:hover{
+
+    background:linear-gradient(
+        135deg,
+        #2563eb,
+        #00d4ff
+    );
+
+    transform:translateY(-3px);
+
+    box-shadow:0 10px 25px rgba(0,212,255,.35);
+
+}
+/* =========================================
+   NeoWriter AI - Premium CSS
+   Part 5 : Footer + Modals + Toast
+========================================= */
+
+/* ---------- Footer ---------- */
+
+.footer{
+
+    margin-top:50px;
+
+    padding:30px;
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    color:var(--text-light);
+
+    border-top:1px solid rgba(255,255,255,.08);
+
+}
+
+/* ---------- Modal ---------- */
+
+.modal{
+
+    position:fixed;
+
+    inset:0;
+
+    background:rgba(0,0,0,.65);
+
+    display:none;
+
+    justify-content:center;
+
+    align-items:center;
+
+    backdrop-filter:blur(10px);
+
+    z-index:9999;
+
+}
+
+.modal-content{
+
+    width:500px;
+
+    background:#101827;
+
+    border-radius:24px;
+
+    border:1px solid rgba(255,255,255,.08);
+
+    overflow:hidden;
+
+    box-shadow:0 30px 80px rgba(0,0,0,.5);
+
+}
+
+.modal-header{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    padding:22px;
+
+    border-bottom:1px solid rgba(255,255,255,.08);
+
+}
+
+.modal-header h2{
+
+    font-size:24px;
+
+}
+
+.close-modal{
+
+    border:none;
+
+    background:none;
+
+    color:white;
+
+    cursor:pointer;
+
+    font-size:28px;
+
+}
+
+.modal-body{
+
+    padding:25px;
+
+}
+
+.setting-item{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    margin-bottom:18px;
+
+}
+
+/* ---------- Share ---------- */
+
+.share-buttons{
+
+    padding:25px;
+
+    display:grid;
+
+    gap:15px;
+
+}
+
+.share-buttons button{
+
+    padding:16px;
+
+    border:none;
+
+    border-radius:14px;
+
+    cursor:pointer;
+
+    background:rgba(255,255,255,.05);
+
+    color:white;
+
+    transition:.35s;
+
+}
+
+.share-buttons button:hover{
+
+    background:linear-gradient(135deg,#2563eb,#00d4ff);
+
+}
+
+/* ---------- Toast ---------- */
+
+.toast{
+
+    position:fixed;
+
+    bottom:30px;
+
+    right:30px;
+
+    background:linear-gradient(135deg,#2563eb,#00d4ff);
+
+    color:white;
+
+    padding:16px 28px;
+
+    border-radius:14px;
+
+    box-shadow:0 15px 40px rgba(0,0,0,.35);
+
+    display:none;
+
+    z-index:99999;
+
+}
+
+/* ---------- Scroll Button ---------- */
+
+.scroll-top{
+
+    position:fixed;
+
+    right:30px;
+
+    bottom:100px;
+
+    width:55px;
+
+    height:55px;
+
+    border:none;
+
+    border-radius:50%;
+
+    cursor:pointer;
+
+    color:white;
+
+    background:linear-gradient(135deg,#2563eb,#00d4ff);
+
+    box-shadow:0 15px 35px rgba(0,212,255,.35);
+
+    transition:.35s;
+
+}
+
+.scroll-top:hover{
+
+    transform:translateY(-5px);
+
+}
+
+/* ---------- Cursor Glow ---------- */
+
+.cursor-glow{
+
+    position:fixed;
+
+    width:250px;
+
+    height:250px;
+
+    background:#00d4ff;
+
+    filter:blur(120px);
+
+    opacity:.12;
+
+    border-radius:50%;
+
+    pointer-events:none;
+
+    left:0;
+
+    top:0;
+
+    transform:translate(-50%,-50%);
+
+    z-index:-1;
+
+}
+
+/* ---------- Responsive ---------- */
+
+@media(max-width:1200px){
+
+.main-layout{
+
+grid-template-columns:1fr;
+
+}
+
+.sidebar{
+
+display:none;
+
+}
+
+.right-panel{
+
+display:none;
+
+}
+
+.hero h1{
+
+font-size:48px;
+
+}
+
+.input-wrapper{
+
+flex-direction:column;
+
+}
+
+#generateBtn{
+
+padding:18px;
+
+width:100%;
+
+}
+
+.result-header{
+
+flex-direction:column;
+
+align-items:flex-start;
+
+gap:20px;
+
+}
+
+.action-buttons{
+
+width:100%;
+
+}
+
+.action-buttons button{
+
+flex:1;
+
+}
+
+.footer{
+
+flex-direction:column;
+
+gap:12px;
+
+text-align:center;
+
+}
+
+}
+
+@media(max-width:768px){
+
+.hero h1{
+
+font-size:36px;
+
+}
+
+.hero p{
+
+font-size:17px;
+
+line-height:30px;
+
+}
+
+.navbar{
+
+padding:18px;
+
+}
+
+.logo{
+
+font-size:22px;
+
+}
+
+.user-box{
+
+display:none;
+
+}
+
+}
+/* =========================================
+   NeoWriter AI - Premium CSS
+   Part 6 : Final Effects & Polish
+========================================= */
+
+/* Smooth Animations */
+
+*{
+    transition:
+        background .3s,
+        color .3s,
+        border .3s,
+        transform .3s,
+        box-shadow .3s;
+}
+
+/* Floating Animation */
+
+@keyframes floating{
+
+    0%{
+        transform:translateY(0px);
+    }
+
+    50%{
+        transform:translateY(-12px);
+    }
+
+    100%{
+        transform:translateY(0px);
+    }
+
+}
+
+.glass-card{
+
+    animation:floating 6s ease-in-out infinite;
+
+}
+
+/* AI Orb Glow */
+
+.ai-orb{
+
+    filter:drop-shadow(0 0 35px rgba(0,212,255,.45));
+
+}
+
+/* Premium Hover */
+
+.result-card:hover{
+
+    transform:translateY(-8px);
+
+    box-shadow:
+    0 30px 80px rgba(0,0,0,.45);
+
+}
+
+/* Sidebar Hover */
+
+.sidebar{
+
+    transition:.4s;
+
+}
+
+.sidebar:hover{
+
+    box-shadow:
+
+    0 20px 60px rgba(0,212,255,.15);
+
+}
+
+/* Hero Animation */
+
+.hero{
+
+    animation:fadeUp 1s ease;
+
+}
+
+@keyframes fadeUp{
+
+    from{
+
+        opacity:0;
+
+        transform:translateY(40px);
+
+    }
+
+    to{
+
+        opacity:1;
+
+        transform:translateY(0);
+
+    }
+
+}
+
+/* Loading Animation */
+
+.loading-section{
+
+    animation:fadeUp .8s;
+
+}
+
+/* Result Animation */
+
+.result-card{
+
+    animation:fadeUp .8s;
+
+}
+
+/* Gradient Text */
+
+.hero h1{
+
+    background-size:300%;
+
+    animation:gradientMove 8s linear infinite;
+
+}
+
+@keyframes gradientMove{
+
+    0%{
+
+        background-position:0%;
+
+    }
+
+    100%{
+
+        background-position:300%;
+
+    }
+
+}
+
+/* Buttons */
+
+button{
+
+    font-family:inherit;
+
+}
+
+button:active{
+
+    transform:scale(.96);
+
+}
+
+/* Input */
+
+input{
+
+    font-family:inherit;
+
+}
+
+/* Selection */
+
+::selection{
+
+    background:#00d4ff;
+
+    color:black;
+
+}
+
+/* Images */
+
+img{
+
+    user-select:none;
+
+}
+
+/* Glass Hover */
+
+.glass-card:hover{
+
+    border-color:rgba(0,212,255,.35);
+
+}
+
+/* Scroll Animation */
+
+html{
+
+    scroll-behavior:smooth;
+
+}
+
+/* Neon Border */
+
+.result-card{
+
+    position:relative;
+
+}
+
+.result-card::before{
+
+    content:"";
+
+    position:absolute;
+
+    inset:-1px;
+
+    border-radius:25px;
+
+    background:
+
+    linear-gradient(
+
+    135deg,
+
+    transparent,
+
+    rgba(0,212,255,.25),
+
+    transparent
+
+    );
+
+    z-index:-1;
+
+}
+
+/* AI Status */
+
+.online{
+
+    animation:blink 2s infinite;
+
+}
+
+@keyframes blink{
+
+    0%{
+
+        opacity:1;
+
+    }
+
+    50%{
+
+        opacity:.4;
+
+    }
+
+    100%{
+
+        opacity:1;
+
+    }
+
+}
+
+/* Footer */
+
+.footer p{
+
+    opacity:.8;
+
+}
+
+/* END */

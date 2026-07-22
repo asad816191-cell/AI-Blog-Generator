@@ -1,0 +1,681 @@
+/* =========================================
+   NeoWriter AI
+   Part 1 : Core
+========================================= */
+
+document.addEventListener("DOMContentLoaded", () => {
+
+const titleInput = document.getElementById("title");
+const generateBtn = document.getElementById("generateBtn");
+
+const loading = document.getElementById("loading");
+
+const resultSection = document.getElementById("resultSection");
+
+const blogOutput = document.getElementById("blogOutput");
+
+const blogTitle = document.getElementById("blogTitle");
+
+const wordCount = document.getElementById("wordCount");
+
+const readingTime = document.getElementById("readingTime");
+
+const totalWords = document.getElementById("totalWords");
+
+const readTime = document.getElementById("readTime");
+
+const headings = document.getElementById("headings");
+
+/* اپنا FastAPI URL */
+
+const API_URL = "http://127.0.0.1:8000/generate-blog";
+
+/* Generate Button */
+
+generateBtn.addEventListener("click", generateBlog);
+
+/* Ctrl + Enter */
+
+titleInput.addEventListener("keydown",(e)=>{
+
+if(e.ctrlKey && e.key==="Enter"){
+
+generateBlog();
+
+}
+
+});
+
+/* Suggestions */
+
+document.querySelectorAll(".suggestions button").forEach(btn=>{
+
+btn.addEventListener("click",()=>{
+
+titleInput.value=btn.innerText;
+
+titleInput.focus();
+
+});
+
+});
+
+/* Main Function */
+
+async function generateBlog(){
+
+const topic=titleInput.value.trim();
+
+if(topic===""){
+
+showToast("Please enter a topic.");
+
+return;
+
+}
+
+loading.style.display="block";
+
+resultSection.style.display="none";
+
+generateBtn.disabled=true;
+
+generateBtn.innerHTML="Generating...";
+
+try{
+
+const response=await fetch(API_URL,{
+
+method:"POST",
+
+headers:{
+
+"Content-Type":"application/json"
+
+},
+
+body:JSON.stringify({
+
+title:topic
+
+})
+
+});
+
+if(!response.ok){
+
+throw new Error("Server Error");
+
+}
+
+const data=await response.json();
+
+blogTitle.innerText=data.title;
+
+typeWriter(data.blog);
+
+updateStats(data.blog);
+
+loading.style.display="none";
+
+resultSection.style.display="block";
+
+}
+
+catch(error){
+
+loading.style.display="none";
+
+showToast("Server Error");
+
+console.error(error);
+
+}
+
+finally{
+
+generateBtn.disabled=false;
+
+generateBtn.innerHTML='<i class="fa-solid fa-wand-magic-sparkles"></i> Generate';
+
+}
+
+}
+/* =========================================
+   NeoWriter AI
+   Part 2 : Typing + Stats + Toast
+========================================= */
+
+/* ---------- Typing Effect ---------- */
+
+async function typeWriter(text){
+
+    blogOutput.innerHTML="";
+
+    const speed = 8;
+
+    let i = 0;
+
+    while(i < text.length){
+
+        const char = text.charAt(i);
+
+        if(char === "\n"){
+
+            blogOutput.innerHTML += "<br>";
+
+        }else{
+
+            blogOutput.innerHTML += char;
+
+        }
+
+        i++;
+
+        blogOutput.scrollTop = blogOutput.scrollHeight;
+
+        await new Promise(resolve=>setTimeout(resolve,speed));
+
+    }
+
+}
+
+/* ---------- Statistics ---------- */
+
+function updateStats(text){
+
+    const words = text.trim().split(/\s+/).length;
+
+    const minutes = Math.max(1,Math.ceil(words/200));
+
+    const totalHeadings = (text.match(/^#/gm)||[]).length;
+
+    wordCount.innerText = words + " Words";
+
+    readingTime.innerText = minutes + " min read";
+
+    totalWords.innerText = words;
+
+    readTime.innerText = minutes;
+
+    headings.innerText = totalHeadings;
+
+}
+
+/* ---------- Toast ---------- */
+
+function showToast(message){
+
+    const toast=document.getElementById("toast");
+
+    toast.innerText=message;
+
+    toast.style.display="block";
+
+    toast.style.opacity="1";
+
+    setTimeout(()=>{
+
+        toast.style.opacity="0";
+
+        setTimeout(()=>{
+
+            toast.style.display="none";
+
+        },300);
+
+    },2500);
+
+}
+
+/* ---------- Auto Scroll ---------- */
+
+function scrollResult(){
+
+    resultSection.scrollIntoView({
+
+        behavior:"smooth",
+
+        block:"start"
+
+    });
+
+}
+/* =========================================
+   NeoWriter AI
+   Part 3 : Copy + PDF + Word + Regenerate
+========================================= */
+
+const copyBtn = document.getElementById("copyBtn");
+const pdfBtn = document.getElementById("pdfBtn");
+const wordBtn = document.getElementById("wordBtn");
+const regenBtn = document.getElementById("regenBtn");
+
+/* ---------- Copy ---------- */
+
+copyBtn.addEventListener("click", async () => {
+
+    const text = blogOutput.innerText;
+
+    if (!text) {
+        showToast("Nothing to copy!");
+        return;
+    }
+
+    try {
+
+        await navigator.clipboard.writeText(text);
+
+        showToast("Blog copied successfully.");
+
+    } catch {
+
+        showToast("Copy failed.");
+
+    }
+
+});
+
+/* ---------- Regenerate ---------- */
+
+regenBtn.addEventListener("click", () => {
+
+    if(titleInput.value.trim() !== ""){
+
+        generateBlog();
+
+    }
+
+});
+
+/* ---------- Download Word ---------- */
+
+wordBtn.addEventListener("click", () => {
+
+    const text = blogOutput.innerText;
+
+    if (!text){
+
+        showToast("Generate a blog first.");
+
+        return;
+
+    }
+
+    const blob = new Blob([text], {
+
+        type:"application/msword"
+
+    });
+
+    const link = document.createElement("a");
+
+    link.href = URL.createObjectURL(blob);
+
+    link.download = blogTitle.innerText + ".doc";
+
+    link.click();
+
+});
+
+/* ---------- Download PDF ---------- */
+
+pdfBtn.addEventListener("click", () => {
+
+    window.print();
+
+});
+
+/* ---------- Suggestions ---------- */
+
+document.querySelectorAll(".suggestions button").forEach(button=>{
+
+    button.addEventListener("click",()=>{
+
+        titleInput.value = button.innerText;
+
+    });
+
+});
+/* =========================================
+   NeoWriter AI
+   Part 4 : Theme + UI Effects
+========================================= */
+
+/* ---------- Theme Toggle ---------- */
+
+const themeBtn = document.querySelector(".theme-btn");
+
+let darkMode = true;
+
+themeBtn.addEventListener("click", () => {
+
+    darkMode = !darkMode;
+
+    if (darkMode) {
+
+        document.body.classList.remove("light-mode");
+
+        themeBtn.innerHTML = '<i class="fa-solid fa-moon"></i>';
+
+        showToast("Dark Mode Enabled");
+
+    } else {
+
+        document.body.classList.add("light-mode");
+
+        themeBtn.innerHTML = '<i class="fa-solid fa-sun"></i>';
+
+        showToast("Light Mode Enabled");
+
+    }
+
+});
+
+/* ---------- Scroll To Top ---------- */
+
+const scrollBtn = document.querySelector(".scroll-top");
+
+window.addEventListener("scroll", () => {
+
+    if (window.scrollY > 300) {
+
+        scrollBtn.style.display = "flex";
+
+    } else {
+
+        scrollBtn.style.display = "none";
+
+    }
+
+});
+
+scrollBtn.addEventListener("click", () => {
+
+    window.scrollTo({
+
+        top: 0,
+
+        behavior: "smooth"
+
+    });
+
+});
+
+/* ---------- Cursor Glow ---------- */
+
+const glow = document.querySelector(".cursor-glow");
+
+document.addEventListener("mousemove", (e) => {
+
+    glow.style.left = e.clientX + "px";
+
+    glow.style.top = e.clientY + "px";
+
+});
+
+/* ---------- Welcome Animation ---------- */
+
+window.addEventListener("load", () => {
+
+    setTimeout(() => {
+
+        showToast("🚀 NeoWriter AI Ready");
+
+    }, 1000);
+
+});
+
+/* ---------- Enter Key ---------- */
+
+titleInput.addEventListener("keypress", (e) => {
+
+    if (e.key === "Enter") {
+
+        e.preventDefault();
+
+        generateBlog();
+
+    }
+
+});
+
+/* ---------- Focus Effect ---------- */
+
+titleInput.addEventListener("focus", () => {
+
+    titleInput.parentElement.style.boxShadow =
+        "0 0 35px rgba(0,212,255,.35)";
+
+});
+
+titleInput.addEventListener("blur", () => {
+
+    titleInput.parentElement.style.boxShadow = "none";
+
+});
+/* =========================================
+   NeoWriter AI
+   Part 5 : History + Download + Storage
+========================================= */
+
+/* ---------- Save Blog History ---------- */
+
+function saveHistory(title){
+
+    let history = JSON.parse(localStorage.getItem("neoHistory")) || [];
+
+    if(!history.includes(title)){
+
+        history.unshift(title);
+
+    }
+
+    if(history.length > 10){
+
+        history.pop();
+
+    }
+
+    localStorage.setItem("neoHistory",JSON.stringify(history));
+
+    renderHistory();
+
+}
+
+/* ---------- Render History ---------- */
+
+function renderHistory(){
+
+    const historyBox=document.querySelector(".history");
+
+    if(!historyBox) return;
+
+    const history=JSON.parse(localStorage.getItem("neoHistory")) || [];
+
+    historyBox.innerHTML="";
+
+    history.forEach(item=>{
+
+        const div=document.createElement("div");
+
+        div.className="history-item";
+
+        div.innerText=item;
+
+        div.onclick=()=>{
+
+            titleInput.value=item;
+
+        };
+
+        historyBox.appendChild(div);
+
+    });
+
+}
+
+/* ---------- Save after Generate ---------- */
+
+const oldGenerate = generateBlog;
+
+generateBlog = async function(){
+
+    await oldGenerate();
+
+    if(titleInput.value.trim()!==""){
+
+        saveHistory(titleInput.value);
+
+    }
+
+}
+
+/* ---------- Better Word Download ---------- */
+
+wordBtn.addEventListener("click",()=>{
+
+    const html=`
+    <html>
+    <head>
+    <title>${blogTitle.innerText}</title>
+    </head>
+    <body style="font-family:Arial;padding:40px;">
+    <h1>${blogTitle.innerText}</h1>
+    <hr>
+    ${blogOutput.innerHTML}
+    </body>
+    </html>`;
+
+    const blob=new Blob([html],{
+
+        type:"application/msword"
+
+    });
+
+    const link=document.createElement("a");
+
+    link.href=URL.createObjectURL(blob);
+
+    link.download=blogTitle.innerText+".doc";
+
+    link.click();
+
+});
+
+/* ---------- Better PDF ---------- */
+
+pdfBtn.addEventListener("click",()=>{
+
+    const printWindow=window.open("","","width=900,height=700");
+
+    printWindow.document.write(`
+
+    <html>
+
+    <head>
+
+    <title>${blogTitle.innerText}</title>
+
+    <style>
+
+    body{
+
+        font-family:Arial;
+
+        padding:40px;
+
+        line-height:1.8;
+
+    }
+
+    h1{
+
+        color:#2563eb;
+
+    }
+
+    </style>
+
+    </head>
+
+    <body>
+
+    <h1>${blogTitle.innerText}</h1>
+
+    <hr>
+
+    ${blogOutput.innerHTML}
+
+    </body>
+
+    </html>
+
+    `);
+
+    printWindow.document.close();
+
+    printWindow.print();
+
+});
+
+/* ---------- Load History ---------- */
+
+renderHistory();
+/* =========================================
+   NeoWriter AI
+   Part 6 : Final Fixes
+========================================= */
+
+// Hide scroll button initially
+if (scrollBtn) {
+    scrollBtn.style.display = "none";
+}
+
+// Focus input when page loads
+window.addEventListener("load", () => {
+    if (titleInput) {
+        titleInput.focus();
+    }
+});
+
+// Prevent multiple clicks while generating
+generateBtn.addEventListener("click", () => {
+    generateBtn.disabled = true;
+
+    setTimeout(() => {
+        generateBtn.disabled = false;
+    }, 2000);
+});
+
+// Clear result when input is empty
+titleInput.addEventListener("input", () => {
+
+    if(titleInput.value.trim()===""){
+
+        blogOutput.innerHTML="";
+
+        resultSection.style.display="none";
+
+    }
+
+});
+
+// Small Enter Animation
+titleInput.addEventListener("keydown",(e)=>{
+
+    if(e.key==="Enter"){
+
+        generateBtn.style.transform="scale(.95)";
+
+        setTimeout(()=>{
+
+            generateBtn.style.transform="scale(1)";
+
+        },150);
+
+    }
+
+});
+
+console.log("✅ NeoWriter AI Loaded Successfully");
