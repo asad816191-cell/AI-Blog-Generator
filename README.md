@@ -124,26 +124,12 @@ http://127.0.0.1:5000
 
 ---
 
-# 📸 Screenshots
+# 📸 Screen recoreded video 
 
-> Add your project screenshots here.
-
-Example:
-
+click here
+          https://youtu.be/rjC9mWg789Q?si=nLb-M1zzm7w5w1nK
 ```
-screenshots/
-
-Home Page
-
-AI Thinking Animation
-
-Generated Blog
-
-Responsive Mobile View
-
-Desktop View
-```
-
+click here and see the project
 ---
 
 # 🎯 Future Improvements
